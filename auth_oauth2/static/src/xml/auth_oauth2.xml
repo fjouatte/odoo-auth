@@ -3,7 +3,7 @@
 <templates id="template" xml:space="preserve">
     <t t-name="auth_oauth2.login">
         <ul>
-            <li><button name="submit">Open new session</button></li>
+            <li><button name="submit">Se connecter</button></li>
         </ul>
     </t>
 </templates>
