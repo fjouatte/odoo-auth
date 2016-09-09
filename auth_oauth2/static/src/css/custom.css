@@ -1,0 +1,14 @@
+.openerp .oe_login .oe_login_pane {
+    background: rgba(0, 0, 0, 0) url("http://www.snesup.fr/index.php?module=images&func=display&fileId=5389_0&width=600px&c=1") repeat scroll 0 0 / 100% auto;
+    border: 1px solid #333333;
+    border-radius: 8px;
+    box-shadow: 0 0 18px rgba(0, 0, 0, 0.9);
+    color: #eee;
+    left: 50%;
+    margin: -160px -166px;
+    padding: 100px 32px 0 32px;
+    position: absolute;
+    text-align: left;
+    top: 50%;
+    vertical-align: bottom;
+}
