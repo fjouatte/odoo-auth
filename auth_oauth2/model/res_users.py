@@ -6,15 +6,17 @@ class res_users(osv.Model):
     _inherit = 'res.users'
 
     _columns = {
-        'oauth_email': fields.char(u"Oauth2 email",
-                                   size=64,
-                                   help=u"Oauth2 email only used to connect to Odoo"),
+        'oauth_email': fields.char(
+            u"Oauth2 email",
+            size=64,
+            help=u"Oauth2 email only used to connect to Odoo"
+        ),
     }
 
     def get_user_id_by_email(self, cr, uid, email, context=None):
         if not context:
             context = {}
-        res = self.search(cr, uid, [('oauth_email', 'ilike', email)], context=context)
+        res = self.search(cr, uid, [('oauth_email', '=', email)], context=context)
         if len(res) == 0:
             return False
         return res[0]
