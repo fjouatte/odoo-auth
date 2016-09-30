@@ -22,6 +22,9 @@ openerp.auth_oauth2 = function(instance) {
                     self.show_error(_t(message));
                 });
             }
+            if(this.params.hasOwnProperty('type')){
+                return this._super();
+            }
             if(!this.params.hasOwnProperty('login,password')){
                 cnx_form = this.$el.find('.oe_login_pane form > ul:last-child()');
                 cnx_form.hide()
