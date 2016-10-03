@@ -23,6 +23,7 @@ DEFAULT_AUTH_URI = GOOGLE_AUTH_URI
 DEFAULT_TOKEN_URI = GOOGLE_TOKEN_URI
 DEFAULT_REVOKE_URI = GOOGLE_REVOKE_URI
 DEFAULT_DATA_ENDPOINT = ''
+DEFAULT_END_SESSION_ENDPOINT = ''
 
 
 CONTROLER_PATH = '/auth_oauth2'
@@ -152,9 +153,9 @@ class OAuth2Controller(openerpweb.Controller):
         except FlowExchangeError as err:
             res['error'] = u"%r" % err
             return res
-
         registry = RegistryManager.get(db)
-        email = credentials.id_token.get('email', False)
+        id_token = credentials.id_token
+        email = id_token.get('email', False)
         # email not given in the id_token dictionnary so we have to request it
         if not email:
             http_credentials = credentials.authorize(httplib2.Http())
@@ -174,7 +175,11 @@ class OAuth2Controller(openerpweb.Controller):
                 return res
             user = user_mdl.read(cr, SUPERUSER_ID, user_id, ['login'])
             user_mdl.write(
-                cr, SUPERUSER_ID, user_id, {'oauth_token': token}, {'update_ldap': False}
+                cr,
+                SUPERUSER_ID,
+                user_id,
+                {'oauth_token': token, 'oauth_id_token': id_token},
+                {'update_ldap': False}
             )
             res['login'] = user.get('login', False)
         res['token'] = token
