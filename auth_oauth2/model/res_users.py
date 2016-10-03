@@ -16,6 +16,9 @@ class res_users(osv.Model):
         'oauth_token': fields.char(
             u"Oauth2 token",
         ),
+        'oauth_id_token': fields.char(
+            u"Oauth2 id_token",
+        ),
     }
 
     def check_credentials(self, cr, uid, password):
