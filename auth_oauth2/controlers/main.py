@@ -173,7 +173,9 @@ class OAuth2Controller(openerpweb.Controller):
                 res['error'] = _(u"User email %s not found in the current db") % email
                 return res
             user = user_mdl.read(cr, SUPERUSER_ID, user_id, ['login'])
-            user_mdl.write(cr, SUPERUSER_ID, user_id, {'password': token}, {'update_ldap': False})
+            user_mdl.write(
+                cr, SUPERUSER_ID, user_id, {'oauth_token': token}, {'update_ldap': False}
+            )
             res['login'] = user.get('login', False)
         res['token'] = token
         return res
