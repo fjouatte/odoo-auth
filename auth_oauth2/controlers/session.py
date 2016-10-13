@@ -29,7 +29,7 @@ class Session(session):
         try:
             conn.request(uri, 'GET', body="{'id_token': %s}" % (id_token))
         except Exception as e:
-            logging.error("Oauth2 end session : %s" % (e.strerror))
+            logging.error("oauth2 end session : %s" % (e))
             exceptions = e
         req.session._suicide = True
         if exceptions:
