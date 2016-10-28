@@ -10,6 +10,7 @@ from oauth2client import GOOGLE_TOKEN_URI
 from oauth2client import GOOGLE_REVOKE_URI
 
 from openerp.modules.registry import RegistryManager
+from openerp.addons.web.http import session_path
 from openerp.addons.web.controllers.main import login_and_redirect
 from openerp.addons.web.controllers.main import set_cookie_and_redirect
 from openerp import SUPERUSER_ID
@@ -114,6 +115,23 @@ class OAuth2Controller(openerpweb.Controller):
         if not state:
             return {}
         return ast.literal_eval(urllib.unquote_plus(state))
+
+    '''
+    @openerpweb.httprequest
+    def logout(self, request, code=None, error=None, **kwargs):
+        import pdb
+        pdb.set_trace()
+        dbname = 'snesup_2016-08-02'
+        login = request.param['email']
+        path = session_path()
+        session_store = werkzeug.contrib.sessions.FilesystemSessionStore(path)
+        sessions = session_store.list()
+        for session in sessions:
+            for oe_session in self.session_store.get(session).values():
+                if oe_session._uid == login:
+                    oe_session.delete()
+        return True
+    '''
 
     @openerpweb.httprequest
     def login(self, request, code=None, error=None, **kward):
