@@ -18,8 +18,6 @@ class Session(session):
 
     @openerpweb.jsonrequest
     def destroy(self, req):
-        import pdb
-        pdb.set_trace()
         uid = req.session._uid
         user_values = req.session.model('res.users').read(
             uid, ['oauth_id_token', 'oauth_token']
@@ -43,7 +41,7 @@ class Session(session):
             'client_secret': client_secret,
         }
         try:
-            logging.error("oauth2 end session")
+            logging.info("oauth2 end session")
             response = http_credentials.request(uri, 'POST', body=str(req_body))
             if response[0].status != 200:
                 exceptions = True
@@ -55,9 +53,12 @@ class Session(session):
             exceptions = True
         req.session._suicide = True
         if exceptions:
-            raise osv.except_osv(
-                u"Erreur lors de la déconnexion",
-                u"Attention, vous avez bien été déconnecté d'OpenERP, cependant une erreur "
-                u"semble s'être produite lors de la déconnexion du SSO, veuillez vérifier que "
-                u"vous êtes bien déconnecté de celui-ci"
-            )
+            return {
+                'error': (
+                    u"Attention, vous avez bien été déconnecté d'OpenERP, cependant une erreur "
+                    u"semble s'être produite lors de la déconnexion SSO, veuillez vérifier que "
+                    u"vous êtes bien déconnecté de celui-ci"
+                ),
+                'title': 'Erreur déconnexion SSO'
+            }
+        return {}

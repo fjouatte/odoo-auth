@@ -88,6 +88,28 @@ openerp.auth_oauth2 = function(instance) {
                 $(window).trigger('hashchange');
             }
     },
+    display_error: function (error) {
+        return instance.web.dialog($('<div>'), {
+            modal: true,
+            title: error.title,
+            buttons: [
+                {text: _t("Ok"), click: function() { $(this).dialog("close"); }}
+            ]
+        }).html(error.error);
+    },
+    on_logout: function() {
+        var self = this;
+        if (!this.has_uncommitted_changes()) {
+            this.session.session_logout().done(function (result) {
+                $(window).unbind('hashchange', self.on_hashchange);
+                self.do_push_state({});
+                if (result.error) {
+                    self.display_error(result);
+                }
+                window.location.reload();
+            });
+        }
+    },
 
     });
 
