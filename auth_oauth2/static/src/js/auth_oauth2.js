@@ -105,8 +105,13 @@ openerp.auth_oauth2 = function(instance) {
                 self.do_push_state({});
                 if (result.error) {
                     self.display_error(result);
+                    window.setTimeout(function(){
+                        window.location.reload()
+                    }, 12000);
                 }
-                window.location.reload();
+                else {
+                    window.location.reload();
+                }
             });
         }
     },
