@@ -27,7 +27,7 @@ class Session(session):
         exceptions = False
         if not id_token:
             req.session._suicide = True
-            return
+            return {}
         id_token = ast.literal_eval(id_token)
         cred = ATC(token, None)
         http_credentials = cred.authorize(httplib2.Http(timeout=10))
