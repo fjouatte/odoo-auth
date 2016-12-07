@@ -6,7 +6,7 @@ _logger = logging.getLogger(__name__)
 
 
 def custom_session_gc(session_store):
-    deadline = time.time() - 60*20
+    deadline = time.time() - 60*120
     for fname in os.listdir(session_store.path):
         path = os.path.join(session_store.path, fname)
         try:
