@@ -148,7 +148,7 @@ class OAuth2Controller(openerpweb.Controller):
 
     def _validate_token(self, request, db, code, error):
         res = {}
-        data = False
+        data, user_id = False, False
         if error or not code:
             res['error'] = error if error else "Unexpected return from Oauth2 Provider"
             return res
@@ -186,8 +186,9 @@ class OAuth2Controller(openerpweb.Controller):
                 email = data.get('email')
         token = credentials.access_token
         with registry.cursor() as cr:
-            user_mdl = registry.get('res.users')
-            user_id = user_mdl.get_user_id_by_email(cr, SUPERUSER_ID, email)
+			if email:
+            	user_mdl = registry.get('res.users')
+            	user_id = user_mdl.get_user_id_by_email(cr, SUPERUSER_ID, email)
             if not user_id:
                 res['error'] = _(u"User email %s not found in the current db") % email
                 return res
