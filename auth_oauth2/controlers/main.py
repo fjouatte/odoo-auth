@@ -186,9 +186,9 @@ class OAuth2Controller(openerpweb.Controller):
                 email = data.get('email')
         token = credentials.access_token
         with registry.cursor() as cr:
-			if email:
-            	user_mdl = registry.get('res.users')
-            	user_id = user_mdl.get_user_id_by_email(cr, SUPERUSER_ID, email)
+            if email:
+                user_mdl = registry.get('res.users')
+                user_id = user_mdl.get_user_id_by_email(cr, SUPERUSER_ID, email)
             if not user_id:
                 res['error'] = _(u"User email %s not found in the current db") % email
                 return res
